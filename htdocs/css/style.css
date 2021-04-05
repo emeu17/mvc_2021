@@ -11,7 +11,36 @@ main {
 }
 
 footer {
+    margin-top: 1em;
     border-top: 1px solid #ccc;
     min-height: 4em;
     text-align: center;
+}
+
+.scoreBoard {
+    background-color: #fff1ad;
+    border: 1px solid #000;
+    padding: 0 1em;
+}
+
+form {
+    margin-top: 2em;
+}
+
+/**
+ * Style a dice using UTF-8 characters.
+ */
+.dice-utf8 .dice-1::after { content: "\2680"; }
+.dice-utf8 .dice-2::after { content: "\2681"; }
+.dice-utf8 .dice-3::after { content: "\2682"; }
+.dice-utf8 .dice-4::after { content: "\2683"; }
+.dice-utf8 .dice-5::after { content: "\2684"; }
+.dice-utf8 .dice-6::after { content: "\2685"; }
+
+.dice-utf8 {
+    font-size: 40px;
+}
+
+.dice-utf8 i {
+    font-style: normal;
 }

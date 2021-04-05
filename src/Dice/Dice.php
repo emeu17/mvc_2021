@@ -18,16 +18,31 @@ namespace Emeu17\Dice;
  */
 class Dice
 {
-    const FACES = 6;
+    private int $faces;
+    private int $roll = 0;
 
-    private ?int $roll = null;
+    public function __construct(int $faces=6)
+    {
+        $this->faces = $faces;
+    }
 
+    /**
+     * Roll the dice and get the value of the last rolled dice.
+     *
+     * @return int as value of last rolled dice.
+     */
     public function roll(): int
     {
-        $this->roll = rand(1, self::FACES);
+        $this->roll = rand(1, $this->faces);
 
         return $this->roll;
     }
+
+    /**
+     * Get the value of the last rolled dice.
+     *
+     * @return int as value of last rolled dice.
+     */
 
     public function getLastRoll(): int
     {
