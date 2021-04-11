@@ -27,7 +27,7 @@ $throw = $throw ?? null;
 
 <p>Sum: <?= $sum ?></p>
 
-<form method="post" action="process2">
+<form method="post" action="<?= $action ?>">
     <fieldset>
         <label>Choose to throw dices again or stop at current sum </label>
         <p>

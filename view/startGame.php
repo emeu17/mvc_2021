@@ -26,7 +26,7 @@ $message = $message ?? null;
 </div>
 
 
-<form method="post" action="process">
+<form method="post" action="<?= $action ?>">
     <fieldset>
         <label><h2>Start new game</h2></label>
         <p>
