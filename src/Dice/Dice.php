@@ -18,8 +18,8 @@ namespace Emeu17\Dice;
  */
 class Dice
 {
-    private int $faces;
-    private int $roll = 0;
+    private $faces;
+    private $roll = 0;
 
     public function __construct(int $faces=6)
     {

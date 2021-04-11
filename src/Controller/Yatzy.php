@@ -46,7 +46,7 @@ class Yatzy
             5 dices. You should get as many dices of face 1 through 6
             in that order. Each round (on each face) is 3 turns. You
             get to choose how many dices you want to keep between the turns
-            and how many you want to roll again. Good Luck!`
+            and how many you want to roll again. Good Luck!
             EOT,
             "action" => url("/yatzy/process"),
         ];

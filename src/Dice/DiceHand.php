@@ -9,14 +9,14 @@ namespace Emeu17\Dice;
  */
 class DiceHand
 {
-    private array $dices;
-    private int $sum;
-    private int $no_dices;
+    private $dices;
+    private $sum;
+    private $noDices;
 
-    public function __construct(int $no_dices=2)
+    public function __construct(int $noDices=2)
     {
-        $this->no_dices = $no_dices;
-        for ($i = 0; $i < $no_dices; $i++) {
+        $this->noDices = $noDices;
+        for ($i = 0; $i < $noDices; $i++) {
             $this->dices[$i] = new Dice();
         }
         $this->sum = 0;
@@ -28,7 +28,7 @@ class DiceHand
      */
     public function roll(): void
     {
-        for ($i = 0; $i < $this->no_dices; $i++) {
+        for ($i = 0; $i < $this->noDices; $i++) {
             $this->sum += $this->dices[$i]->roll();
         }
     }
@@ -60,7 +60,7 @@ class DiceHand
     public function getLastRoll(): string
     {
         $res = [];
-        for ($i = 0; $i < $this->no_dices; $i++) {
+        for ($i = 0; $i < $this->noDices; $i++) {
             $res[] = $this->dices[$i]->getLastRoll();
         }
         return implode(", ", $res);

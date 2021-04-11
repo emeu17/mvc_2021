@@ -1,11 +1,4 @@
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Dice\Game.php:85	The method resultGame uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Dice\Game.php:90	The method resultGame uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Dice\Game.php:97	The method resultGame uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Router\Router.php:24	The method dispatch() has a Cyclomatic Complexity of 30. The configured cyclomatic complexity threshold is 10.
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Router\Router.php:91	Missing class import via use statement (line '91', column '29').
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Router\Router.php:95	Missing class import via use statement (line '95', column '29').
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Router\Router.php:99	Missing class import via use statement (line '99', column '29').
+C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Controller\Game21.php:164	The method resultGame uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Controller\Game21.php:169	The method resultGame uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
 C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\functions.php:67	Missing class import via use statement (line '67', column '23').
 C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\functions.php:73	Missing class import via use statement (line '73', column '21').
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Dice\Dice.php	-	Unexpected token: int, line: 21, col: 13, file: C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Dice\Dice.php.
-C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Dice\DiceHand.php	-	Unexpected token: array, line: 12, col: 13, file: C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Dice\DiceHand.php.

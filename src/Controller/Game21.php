@@ -171,11 +171,9 @@ class Game21
                 $winner = "player";
             }
         }
-        if ($winner == "player") {
-            $_SESSION["playScore"] += 1;
-        } else {
-            $_SESSION["compScore"] += 1;
-        }
+
+        $winner == "player" ? $_SESSION["playScore"] += 1 : $_SESSION["compScore"] += 1;
+
         $_SESSION["noRounds"] += 1;
         unset($_SESSION["diceHand"]);
         $body = renderView("layout/resultGame.php", $data);
