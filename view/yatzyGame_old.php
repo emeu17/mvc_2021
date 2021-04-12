@@ -19,27 +19,19 @@ $throw = $throw ?? null;
 
 <p><?= $message ?></p>
 
+<p>
+    <?php if ($sum != 0) {
+        echo "Last dice throw:\n";
+        foreach ($throw as $item) {
+            echo $item + "\n";
+        }
+    }
+    ?>
+</p>
+
+<p>Sum: <?= $sum ?></p>
+
 <form method="post" action="<?= $action ?>">
-    <?php
-    if (!$newRound) {
-        echo "Which dices do you want to keep?";
-        $i = 0; ?>
-        <p class="dice-utf8">
-        <?php
-        foreach ($graphic as $item) : ?>
-            <input type="checkbox" name="diceThrow[]" value="<?= $i ?>" /><i class="<?= $item ?>"></i>
-        <?php
-            $i++;
-        endforeach;
-    } ?>
-    </p>
-
-<?php if($result) { ?>
-<p>Result of rounds: </p>
-    <?= $result ?>
-<?php } ?>
-<br>
-
     <fieldset>
         <label>Choose to throw dices again or stop at current sum </label>
         <p>

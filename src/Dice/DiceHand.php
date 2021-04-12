@@ -9,9 +9,9 @@ namespace Emeu17\Dice;
  */
 class DiceHand
 {
-    private $dices;
+    protected $dices;
     private $sum;
-    private $noDices;
+    protected $noDices;
 
     public function __construct(int $noDices=2)
     {
@@ -20,6 +20,15 @@ class DiceHand
             $this->dices[$i] = new Dice();
         }
         $this->sum = 0;
+    }
+
+    public function rollChosenDices(array $chosenDices): void
+    {
+        for ($i = 0; $i < $this->noDices; $i++) {
+            if (!in_array($i, $chosenDices)) {
+                $this->dices[$i]->roll();
+            }
+        }
     }
 
     /**
@@ -43,6 +52,7 @@ class DiceHand
         return $this->sum;
     }
 
+
     /**
      * Set sum of all rolled dices.
      *
@@ -64,6 +74,20 @@ class DiceHand
             $res[] = $this->dices[$i]->getLastRoll();
         }
         return implode(", ", $res);
+    }
+
+    /**
+     * Get they array of latest rolled dice(s)
+     *
+     * @return array with all dice values
+     */
+    public function getLastRollArray()
+    {
+        $res = [];
+        for ($i = 0; $i < $this->noDices; $i++) {
+            $res[] = $this->dices[$i]->getLastRoll();
+        }
+        return $res;
     }
 
     /**

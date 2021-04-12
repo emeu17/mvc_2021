@@ -17,7 +17,7 @@ use function Mos\Functions\{
 };
 
 use Emeu17\Dice\Dice;
-use Emeu17\Dice\DiceHand;
+use Emeu17\Dice\DiceHandUpgrade;
 
 
 /**
@@ -66,9 +66,12 @@ class Yatzy
      */
     public function processStart(): ResponseInterface
     {
-        $_SESSION["round"] = 1;
+        $_SESSION["yatzyRound"] = 1;
+        $_SESSION["yatzySet"] = 1;
+        $_SESSION["yatzyResult"] = [];
+        $_SESSION["yatzyNewRound"] = true;
         if (!isset($_SESSION["yatzyHand"])) {
-            $_SESSION["yatzyHand"] = new DiceHand(5);
+            $_SESSION["yatzyHand"] = new DiceHandUpgrade(5);
         }
 
         return (new Response())
@@ -88,11 +91,13 @@ class Yatzy
         $callable = $_SESSION["yatzyHand"];
         $data = [
             "header" => "Yatzy: Throw dices",
-            "message" => "Choose to throw dice(s) or stop at current sum",
+            "message" => "Choose to throw dice(s). Get as many as possible of face " . $_SESSION["yatzySet"],
             "action" => url("/yatzy/process2"),
+            "result" => $this->printResult($_SESSION["yatzySet"]),
         ];
-        $data["throw"] = $callable->getLastRoll();
-        $data["sum"] = $callable->getSum();
+        $data["throw"] = $callable->getLastRollArray();
+        $data["graphic"] =  $callable->getGraphic();
+        $data["newRound"] = $_SESSION["yatzyNewRound"];
         $body = renderView("layout/yatzyGame.php", $data);
 
         return $psr17Factory
@@ -106,11 +111,31 @@ class Yatzy
      */
     public function processThrow(): ResponseInterface
     {
-        if ($_SESSION["round"] < 3) {
+        $diceThrow = $_POST["diceThrow"] ?? [];
+        if($_SESSION["yatzySet"] <= 6) {
             $callable = $_SESSION["yatzyHand"];
-            $callable->roll();
-            $_SESSION["yatzyHand"] = $callable;
-            $_SESSION["round"] += 1;
+            //if no dices chosen, throw all
+            //otherwise throw only chosen dices anew
+            if(empty($diceThrow)) {
+                $callable->roll();
+            } else {
+                $callable->rollChosenDices($diceThrow);
+            }
+
+            if ($_SESSION["yatzyRound"] < 3) {
+
+                $_SESSION["yatzyHand"] = $callable;
+                $_SESSION["yatzyRound"] += 1;
+                $_SESSION["yatzyNewRound"] = false;
+                return (new Response())
+                    ->withStatus(301)
+                    ->withHeader("Location", url("/yatzy/game"));
+            }
+            $_SESSION["yatzyResult"][$_SESSION["yatzySet"]] = $callable->getLastRollArray();
+            $_SESSION["yatzySet"] += 1;
+            $_SESSION["yatzyRound"] = 1;
+            $_SESSION["yatzyNewRound"] = true;
+
             return (new Response())
                 ->withStatus(301)
                 ->withHeader("Location", url("/yatzy/game"));
@@ -118,6 +143,35 @@ class Yatzy
         return (new Response())
             ->withStatus(301)
             ->withHeader("Location", url("/yatzy/result"));
+    }
+
+    public function printResult($currentSet)
+    {
+        $str = "";
+        if($currentSet > 1) {
+            for ($i = 1; $i < $currentSet; $i++) {
+                $str .= nl2br($i . ": " . implode(", ", $_SESSION["yatzyResult"][$i]) . "\n");
+            }
+        }
+        return $str;
+    }
+
+    public function printResultStars($currentSet)
+    {
+        $str = "";
+        if($currentSet > 1) {
+            for ($i = 1; $i < $currentSet; $i++) {
+                $noDices = count($_SESSION["yatzyResult"][$i]);
+                $str .= $i . ": ";
+                for ($j = 0; $j < $noDices; $j++) {
+                    if ($i == $_SESSION["yatzyResult"][$i][$j]) {
+                        $str .= "*";
+                    }
+                }
+                $str .= nl2br("\n");
+            }
+        }
+        return $str;
     }
 
     /**
@@ -130,6 +184,8 @@ class Yatzy
         $data = [
             "header" => "Result",
             "message" => "Result of round: ",
+            "result" => $this->printResult($_SESSION["yatzySet"]),
+            "result2" => $this->printResultStars($_SESSION["yatzySet"]),
         ];
 
         $body = renderView("layout/resultYatzy.php", $data);

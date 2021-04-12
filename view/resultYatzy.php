@@ -21,6 +21,10 @@ $throw = $throw ?? null;
 
 <p><?= $message ?></p>
 
-<!-- <p> <?= $result ?> </p> -->
+<p>Result of game: </p>
+<p> <?= $result ?> </p>
+
+<p>Result of game stars: </p>
+<p> <?= $result2 ?> </p>
 
 <p> <a href="<?= url("/startGame") ?>">Play again?</a> </p>
