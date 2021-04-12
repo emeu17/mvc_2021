@@ -54,4 +54,6 @@ $router->addGroup("/yatzy", function (RouteCollector $router) {
     $router->addRoute("GET", "", ["\Mos\Controller\Yatzy", "startGame"]);
     $router->addRoute("POST", "/process", ["\Mos\Controller\Yatzy", "processStart"]);
     $router->addRoute("GET", "/game", ["\Mos\Controller\Yatzy", "playGame"]);
+    $router->addRoute("POST", "/process2", ["\Mos\Controller\Yatzy", "processThrow"]);
+    $router->addRoute("GET", "/result", ["\Mos\Controller\Yatzy", "result"]);
 });

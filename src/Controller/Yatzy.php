@@ -32,6 +32,9 @@ class Yatzy
      */
     public function startGame(): ResponseInterface
     {
+        if (isset($_SESSION["yatzyHand"])) {
+            unset($_SESSION["yatzyHand"]);
+        }
         $psr17Factory = new Psr17Factory();
         //
         // if (!isset($_SESSION["noRounds"])) {
@@ -63,6 +66,7 @@ class Yatzy
      */
     public function processStart(): ResponseInterface
     {
+        $_SESSION["round"] = 1;
         if (!isset($_SESSION["yatzyHand"])) {
             $_SESSION["yatzyHand"] = new DiceHand(5);
         }
@@ -85,7 +89,7 @@ class Yatzy
         $data = [
             "header" => "Yatzy: Throw dices",
             "message" => "Choose to throw dice(s) or stop at current sum",
-            "action" => url("/diceGame/process2"),
+            "action" => url("/yatzy/process2"),
         ];
         $data["throw"] = $callable->getLastRoll();
         $data["sum"] = $callable->getSum();
@@ -95,4 +99,44 @@ class Yatzy
             ->createResponse(200)
             ->withBody($psr17Factory->createStream($body));
     }
+
+    /**
+     * Throw dices 3 times each round.
+     *
+     */
+    public function processThrow(): ResponseInterface
+    {
+        if ($_SESSION["round"] < 3) {
+            $callable = $_SESSION["yatzyHand"];
+            $callable->roll();
+            $_SESSION["yatzyHand"] = $callable;
+            $_SESSION["round"] += 1;
+            return (new Response())
+                ->withStatus(301)
+                ->withHeader("Location", url("/yatzy/game"));
+        }
+        return (new Response())
+            ->withStatus(301)
+            ->withHeader("Location", url("/yatzy/result"));
+    }
+
+    /**
+     * Print out the results of a game.
+     * Save no of rounds and who won to use in scoreboard.
+     */
+    public function result(): ResponseInterface
+    {
+        $psr17Factory = new Psr17Factory();
+        $data = [
+            "header" => "Result",
+            "message" => "Result of round: ",
+        ];
+
+        $body = renderView("layout/resultYatzy.php", $data);
+
+        return $psr17Factory
+            ->createResponse(200)
+            ->withBody($psr17Factory->createStream($body));
+    }
+
 }
