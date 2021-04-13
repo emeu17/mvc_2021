@@ -9,16 +9,6 @@ namespace Emeu17\Dice;
  */
 class DiceHandUpgrade extends DiceHand
 {
-    // public function printHistogram()
-    // {
-    //     for ($i = 0; $i < $this->noDices; $i++) {
-    //         echo $this->dices[$i]->getLastRoll();
-    //     }
-    //     // for ($i = 0; $i < $this->noDices; $i++) {
-    //     //
-    //     // }
-    // }
-
     /**
      * Constructor to initiate the chosen no of dices.
      */

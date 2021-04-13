@@ -21,10 +21,13 @@ $throw = $throw ?? null;
 
 <p><?= $message ?></p>
 
-<p>Result of game: </p>
 <p> <?= $result ?> </p>
 
-<p>Result of game stars: </p>
+<p>Another way to present the result of the game (amount of correct faces each round): </p>
 <p> <?= $result2 ?> </p>
 
-<p> <a href="<?= url("/startGame") ?>">Play again?</a> </p>
+<p>Sum: <?= $sum ?></p>
+<p>Bonus: <?= $bonus ?> </p>
+<p><b>Total sum: <?= $sum+$bonus ?></b></p>
+
+<p> <a href="<?= url("/yatzy") ?>">Play again?</a> </p>

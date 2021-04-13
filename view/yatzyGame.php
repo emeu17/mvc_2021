@@ -17,7 +17,7 @@ $throw = $throw ?? null;
 
 <h1><?= $header ?></h1>
 
-<p><?= $message ?></p>
+<p><b><?= $message ?></b></p>
 
 <form method="post" action="<?= $action ?>">
     <?php
@@ -41,10 +41,9 @@ $throw = $throw ?? null;
 <br>
 
     <fieldset>
-        <label>Choose to throw dices again or stop at current sum </label>
+        <label>Throw dices: </label>
         <p>
-            <input type="submit" name="throw" value="Throw dice(s)">
-            <input type="submit" name="stop" value="Stop round">
+            <input type="submit" name="throw" value="Throw dices">
         </p>
     </fieldset>
 </form>

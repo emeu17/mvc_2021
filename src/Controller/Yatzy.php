@@ -91,7 +91,7 @@ class Yatzy
         $callable = $_SESSION["yatzyHand"];
         $data = [
             "header" => "Yatzy: Throw dices",
-            "message" => "Choose to throw dice(s). Get as many as possible of face " . $_SESSION["yatzySet"],
+            "message" => "Get as many as possible of face " . $_SESSION["yatzySet"],
             "action" => url("/yatzy/process2"),
             "result" => $this->printResult($_SESSION["yatzySet"]),
         ];
@@ -107,44 +107,52 @@ class Yatzy
 
     /**
      * Throw dices 3 times each round.
-     *
+     * The game is played getting as many dices
+     * of face 1 through 6 (in that order).
      */
     public function processThrow(): ResponseInterface
     {
         $diceThrow = $_POST["diceThrow"] ?? [];
-        if($_SESSION["yatzySet"] <= 6) {
-            $callable = $_SESSION["yatzyHand"];
-            //if no dices chosen, throw all
-            //otherwise throw only chosen dices anew
-            if(empty($diceThrow)) {
-                $callable->roll();
-            } else {
-                $callable->rollChosenDices($diceThrow);
-            }
 
-            if ($_SESSION["yatzyRound"] < 3) {
+        $callable = $_SESSION["yatzyHand"];
+        //if no dices chosen, throw all
+        //otherwise throw only chosen dices anew
+        // if(empty($diceThrow)) {
+        //     $callable->roll();
+        // } else {
+        //     $callable->rollChosenDices($diceThrow);
+        // }
 
-                $_SESSION["yatzyHand"] = $callable;
-                $_SESSION["yatzyRound"] += 1;
-                $_SESSION["yatzyNewRound"] = false;
-                return (new Response())
-                    ->withStatus(301)
-                    ->withHeader("Location", url("/yatzy/game"));
-            }
-            $_SESSION["yatzyResult"][$_SESSION["yatzySet"]] = $callable->getLastRollArray();
-            $_SESSION["yatzySet"] += 1;
-            $_SESSION["yatzyRound"] = 1;
-            $_SESSION["yatzyNewRound"] = true;
+        empty($diceThrow) ? $callable->roll() : $callable->rollChosenDices($diceThrow);
 
+        if ($_SESSION["yatzyRound"] < 3) {
+
+            $_SESSION["yatzyHand"] = $callable;
+            $_SESSION["yatzyRound"] += 1;
+            $_SESSION["yatzyNewRound"] = false;
             return (new Response())
                 ->withStatus(301)
                 ->withHeader("Location", url("/yatzy/game"));
         }
+        $_SESSION["yatzyResult"][$_SESSION["yatzySet"]] = $callable->getLastRollArray();
+        $_SESSION["yatzySet"] += 1;
+        $_SESSION["yatzyRound"] = 1;
+        $_SESSION["yatzyNewRound"] = true;
+
+        if($_SESSION["yatzySet"] == 7) {
+            return (new Response())
+                ->withStatus(301)
+                ->withHeader("Location", url("/yatzy/result"));
+        }
+
         return (new Response())
             ->withStatus(301)
-            ->withHeader("Location", url("/yatzy/result"));
+            ->withHeader("Location", url("/yatzy/game"));
     }
 
+    /**
+     * Print out the results of so far played rounds
+     */
     public function printResult($currentSet)
     {
         $str = "";
@@ -156,6 +164,12 @@ class Yatzy
         return $str;
     }
 
+    /**
+     * Print out the results of so far played rounds
+     * print out with stars for no of correct dices, eg:
+     * 1: **
+     * 2: ***
+     */
     public function printResultStars($currentSet)
     {
         $str = "";
@@ -175,6 +189,34 @@ class Yatzy
     }
 
     /**
+     * Calculate sum of dices by adding
+     * together correct dices for each round.
+     */
+    public function getSum($diceArray)
+    {
+        $sum = 0;
+        for ($i = 1; $i <= 6; $i++) {
+            $noDices = count($diceArray[$i]);
+            for ($j = 0; $j < $noDices; $j++) {
+                if ($diceArray[$i][$j] == $i) {
+                    $sum += $i;
+                }
+            }
+        }
+        return $sum;
+    }
+
+    /**
+     * Check if correct dices (sum) are enough to get bonus.
+     */
+    public function getBonus($sum) {
+        if($sum > 63) {
+            return 50;
+        }
+        return 0;
+    }
+
+    /**
      * Print out the results of a game.
      * Save no of rounds and who won to use in scoreboard.
      */
@@ -183,11 +225,13 @@ class Yatzy
         $psr17Factory = new Psr17Factory();
         $data = [
             "header" => "Result",
-            "message" => "Result of round: ",
+            "message" => "Result of game: ",
             "result" => $this->printResult($_SESSION["yatzySet"]),
             "result2" => $this->printResultStars($_SESSION["yatzySet"]),
-        ];
+            "sum" => $this->getSum($_SESSION["yatzyResult"]),
 
+        ];
+        $data["bonus"] = $this->getBonus($data["sum"]);
         $body = renderView("layout/resultYatzy.php", $data);
 
         return $psr17Factory

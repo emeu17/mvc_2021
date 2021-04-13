@@ -22,15 +22,6 @@ class DiceHand
         $this->sum = 0;
     }
 
-    public function rollChosenDices(array $chosenDices): void
-    {
-        for ($i = 0; $i < $this->noDices; $i++) {
-            if (!in_array($i, $chosenDices)) {
-                $this->dices[$i]->roll();
-            }
-        }
-    }
-
     /**
      * Roll dice(s)
      *
