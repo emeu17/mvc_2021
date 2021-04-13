@@ -10,14 +10,21 @@ namespace Emeu17\Dice;
 class DiceHandUpgrade extends DiceHand
 {
     /**
-     * Constructor to initiate the chosen no of dices.
+     * Add dice of class $dice to DiceHand 
+     *
      */
-    public function __construct(int $noDices)
+    public function addDice(DiceInterface $dice) {
+            $this->noDices++;
+            $this->dices[] = $dice;
+    }
+
+
+    /**
+     * Constructor to initiate noDices to zero.
+     */
+    public function __construct()
     {
-        $this->noDices = $noDices;
-        for ($i = 0; $i < $noDices; $i++) {
-            $this->dices[$i] = new GraphicalDice();
-        }
+        $this->noDices = 0;
     }
 
     public function rollChosenDices(array $chosenDices): void
@@ -33,7 +40,7 @@ class DiceHandUpgrade extends DiceHand
     {
         $class = [];
         for ($i = 0; $i < $this->noDices; $i++) {
-            $class[$i] = $this->dices[$i]->graphic();
+            $class[$i] = $this->dices[$i]->asString();
         }
         return $class;
     }

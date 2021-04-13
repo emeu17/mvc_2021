@@ -11,3 +11,8 @@ through link "Game 21" in navbar. Based on classes in /src:
 - GraphicalDice: inherits from the Dice class - also has the
     possibility to get class-name in order to print out
     a graphical representation of the dice.
+
+Kmom02
+-------------
+Refactoring of code to include controllers.
+New class Yatzy to play yatzy game on application.

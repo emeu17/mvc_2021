@@ -16,7 +16,7 @@ namespace Emeu17\Dice;
 /**
  * Class Dice.
  */
-class Dice
+class Dice implements DiceInterface
 {
     private $faces;
     private $roll = 0;
@@ -47,5 +47,10 @@ class Dice
     public function getLastRoll(): int
     {
         return $this->roll;
+    }
+
+    public function asString(): string
+    {
+        return (string) $this->getLastRoll();
     }
 }

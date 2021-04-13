@@ -12,7 +12,7 @@ namespace Emeu17\Dice;
 /**
  * A graphic dice.
  */
-class GraphicalDice extends Dice
+class GraphicalDice extends Dice implements DiceInterface
 {
     /**
      * @var integer SIDES Number of sides of the Dice.
@@ -32,8 +32,8 @@ class GraphicalDice extends Dice
      *
      * @return string as graphical representation of last rolled dice.
      */
-    public function graphic()
+    public function asString(): string
     {
-        return "dice-" . $this->getLastRoll();
+        return "dice-" . (string) $this->getLastRoll();
     }
 }

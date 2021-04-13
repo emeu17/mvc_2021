@@ -46,7 +46,7 @@ $res = [];
 $class = [];
 for ($i = 0; $i < $rolls; $i++) {
     $res[] = $dice->roll();
-    $class[] = $dice->graphic();
+    $class[] = $dice->asString();
 } ?>
 
 <p><?= implode(", ", $res) ?></p>

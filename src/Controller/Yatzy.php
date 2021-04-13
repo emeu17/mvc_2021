@@ -16,7 +16,7 @@ use function Mos\Functions\{
     destroySession
 };
 
-use Emeu17\Dice\Dice;
+use Emeu17\Dice\GraphicalDice;
 use Emeu17\Dice\DiceHandUpgrade;
 
 
@@ -71,7 +71,12 @@ class Yatzy
         $_SESSION["yatzyResult"] = [];
         $_SESSION["yatzyNewRound"] = true;
         if (!isset($_SESSION["yatzyHand"])) {
-            $_SESSION["yatzyHand"] = new DiceHandUpgrade(5);
+            $diceHand = new DiceHandUpgrade();
+            for ($i = 0; $i < 5; $i++) {
+                $diceHand->addDice(new GraphicalDice());
+            }
+            $_SESSION["yatzyHand"] = $diceHand;
+
         }
 
         return (new Response())

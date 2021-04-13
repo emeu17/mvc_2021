@@ -37,7 +37,7 @@ echo "testing\n";
 //     echo $comp2[$i] . "\n";
 // }
 
-$diceRoll = new DiceHandUpgrade(5);
+$diceRoll = new DiceHandUpgrade();
 $diceRoll->roll();
 // $diceRoll->printHistogram();
 $diceRoll->getGraphic();
