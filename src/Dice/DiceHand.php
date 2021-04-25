@@ -34,6 +34,16 @@ class DiceHand
     }
 
     /**
+     * Get dice value of a specific dice in dices array.
+     *
+     * @return int as value of specific dice.
+     */
+    public function getDiceValue(int $diceOrder): int
+    {
+        return $this->dices[$diceOrder]->getLastRoll();
+    }
+
+    /**
      * Get sum of all rolled dice.
      *
      * @return int as sum of all rolled dices.

@@ -49,6 +49,17 @@ class Dice implements DiceInterface
         return $this->roll;
     }
 
+    /**
+     * Get the value of the number of dice faces.
+     *
+     * @return int as value of no of dice faces.
+     */
+
+    public function getFaces(): int
+    {
+        return $this->faces;
+    }
+
     public function asString(): string
     {
         return (string) $this->getLastRoll();
