@@ -10,12 +10,13 @@ namespace Emeu17\Dice;
 class DiceHandUpgrade extends DiceHand
 {
     /**
-     * Add dice of class $dice to DiceHand 
+     * Add dice of class $dice to DiceHand
      *
      */
     public function addDice(DiceInterface $dice) {
             $this->noDices++;
             $this->dices[] = $dice;
+            return $this->noDices;
     }
 
 
@@ -27,6 +28,10 @@ class DiceHandUpgrade extends DiceHand
         $this->noDices = 0;
     }
 
+    /**
+     * Takes array of selected dices and rolls only those dices
+     * that are not in the array (array shows dices to save and not roll)
+     */
     public function rollChosenDices(array $chosenDices): void
     {
         for ($i = 0; $i < $this->noDices; $i++) {

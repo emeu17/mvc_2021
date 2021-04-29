@@ -11,51 +11,62 @@ use PHPUnit\Framework\TestCase;
  */
 class DiceHandUpgradeTest extends TestCase
 {
-    // /**
-    //  * Construct object and verify that the object has the expected
-    //  * properties, use no arguments.
-    //  */
-    // public function testCreateObjectNoArguments()
-    // {
-    //     $diceHand = new DiceHandUpgrade();
-    //     $this->assertInstanceOf("\Emeu17\Dice\DiceHandUpgrade", $diceHand);
-    //
-    //     $res = $diceHand->getSum();
-    //     $exp = 0;
-    //     $this->assertEquals($exp, $res);
-    // }
-    //
-    //
-    //
-    // /**
-    //  * Construct object and verify that setting
-    //  * a sum yields the correct result
-    //  */
-    // public function testSetSum()
-    // {
-    //     $diceHand = new DiceHand();
-    //     $this->assertInstanceOf("\Emeu17\Dice\DiceHand", $diceHand);
-    //
-    //     $diceHand->setSum(2);
-    //     $res = $diceHand->getSum();
-    //     $exp = 2;
-    //     $this->assertEquals($exp, $res);
-    // }
-    //
-    //
-    // /**
-    //  * Construct object and verify that after
-    //  * rolling dices the correct array of dice rolls
-    //  * can be retrieved
-    //  */
-    // public function testGetLastRollArray()
-    // {
-    //     $diceHand = new DiceHand(2);
-    //     $this->assertInstanceOf("\Emeu17\Dice\DiceHand", $diceHand);
-    //
-    //     $diceHand->roll();
-    //     $res = $diceHand->getLastRollArray();
-    //     $exp = [$diceHand->getDiceValue(0), $diceHand->getDiceValue(1)];
-    //     $this->assertEquals($exp, $res);
-    // }
+    /**
+     * Construct object and verify that the object has the expected
+     * properties, use no arguments.
+     */
+    public function testCreateObjectNoArguments()
+    {
+        $diceHand = new DiceHandUpgrade();
+        $this->assertInstanceOf("\Emeu17\Dice\DiceHandUpgrade", $diceHand);
+
+        $res = $diceHand->addDice(new Dice());
+        $exp = 1;
+        $this->assertEquals($exp, $res);
+    }
+
+    /**
+     * Construct object and verify that the object has the expected
+     * properties, use no arguments.
+     * roll a chosen dice and check that a value is set correctly
+     */
+    public function testRollChosenDice()
+    {
+        $diceHand = new DiceHandUpgrade();
+        $this->assertInstanceOf("\Emeu17\Dice\DiceHandUpgrade", $diceHand);
+
+        $diceHand->addDice(new Dice());
+        $diceHand->addDice(new Dice());
+
+        //only rolls dices not in array
+        //ie array is dices to save from rolling
+        $diceHand->rollChosenDices([1]);
+        $res = $diceHand->getDiceValue(0);
+
+        $this->assertTrue(1 <= $res);
+        $this->assertTrue($res <= 6);
+    }
+
+    /**
+     * Construct object and verify that the object has the expected
+     * properties, use no arguments.
+     * Roll dices and get array of ints for creating css dice-classes
+     */
+    public function testGetGraphic()
+    {
+        $diceHand = new DiceHandUpgrade();
+        $this->assertInstanceOf("\Emeu17\Dice\DiceHandUpgrade", $diceHand);
+
+        $diceHand->addDice(new Dice());
+        $diceHand->addDice(new Dice());
+
+        $diceHand->roll();
+
+        $res = $diceHand->getGraphic();
+
+        for ($i = 0; $i < count($res); $i++) {
+            $this->assertTrue(1 <= (int) $res[$i]);
+            $this->assertTrue((int) $res[$i] <= 6);
+        }
+    }
 }
