@@ -9,9 +9,7 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 use function Mos\Functions\{
-    redirectTo,
     renderView,
-    sendResponse,
     url,
     destroySession
 };
@@ -77,6 +75,9 @@ class Game21
      */
     public function processStart(): ResponseInterface
     {
+        if (!isset($_POST["dices"])) {
+            $_POST["dices"] = 2;
+        }
         if (!isset($_SESSION["diceHand"])) {
             $_SESSION["diceHand"] = new DiceHand((int) $_POST["dices"]);
         }
@@ -146,7 +147,6 @@ class Game21
     {
         $psr17Factory = new Psr17Factory();
 
-        $winner = null;
         $callable = $_SESSION["diceHand"];
         $data = [
             "header" => "Result",
@@ -155,25 +155,7 @@ class Game21
             "sum" => $callable->getSum(),
         ];
 
-        if ($callable->getSum() == 21) {
-            $data["result"] = "CONGRATULATIONS! You got 21!";
-            $winner = "player";
-        } elseif ($callable->getSum() > 21) {
-            $data["result"] = "You passed 21 and lost, sum: " . $data["sum"];
-            $winner = "computer";
-        } else {
-            $computerScore = $callable->simulateComputer((int) $data["sum"]);
-            if($computerScore <= 21) {
-                $data["result"] = "Computer wins, got sum = " . $computerScore . ", your sum = " . $data['sum'];
-                $winner = "computer";
-            } else {
-                $data["result"] = "You win, computer got sum = " . $computerScore . ", your sum = " . $data['sum'];
-                $winner = "player";
-            }
-        }
-
-        $winner == "player" ? $_SESSION["playScore"] += 1 : $_SESSION["compScore"] += 1;
-
+        $data["result"] = $this->getWinner($callable);
         $_SESSION["noRounds"] += 1;
         unset($_SESSION["diceHand"]);
         $body = renderView("layout/resultGame.php", $data);
@@ -181,6 +163,34 @@ class Game21
         return $psr17Factory
             ->createResponse(200)
             ->withBody($psr17Factory->createStream($body));
+    }
+
+    /**
+     * Returns the winner in a DiceHand object
+     *
+     */
+    public function getWinner($callable)
+    {
+        $sum = $callable->getSum();
+        if ($callable->getSum() == 21) {
+            $res = "CONGRATULATIONS! You got 21!";
+            $winner = "player";
+        } elseif ($callable->getSum() > 21) {
+            $res = "You passed 21 and lost, sum: " . $sum;
+            $winner = "computer";
+        } else {
+            $computerScore = $callable->simulateComputer((int) $sum);
+            if($computerScore <= 21) {
+                $res = "Computer wins, got sum = " . $computerScore . ", your sum = " . $sum;
+                $winner = "computer";
+            } else {
+                $res = "You win, computer got sum = " . $computerScore . ", your sum = " . $sum;
+                $winner = "player";
+            }
+        }
+
+        $winner == "player" ? $_SESSION["playScore"] += 1 : $_SESSION["compScore"] += 1;
+        return $res;
     }
 
 }

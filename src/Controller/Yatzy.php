@@ -9,9 +9,7 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 use function Mos\Functions\{
-    redirectTo,
     renderView,
-    sendResponse,
     url,
     destroySession
 };

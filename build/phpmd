@@ -1,0 +1,3 @@
+C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Controller\Game21.php:181	The method getWinner uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\src\Controller\Game21.php:186	The method getWinner uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+C:\Users\emma8\Documents\BTH\dbwebb-kurser\mvc\me\game\test\Controller\ControllerYatzyTest.php:13	The class ControllerYatzyTest has 15 public methods. Consider refactoring ControllerYatzyTest to keep number of public methods under 10.

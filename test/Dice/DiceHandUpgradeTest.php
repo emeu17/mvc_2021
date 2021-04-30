@@ -63,8 +63,9 @@ class DiceHandUpgradeTest extends TestCase
         $diceHand->roll();
 
         $res = $diceHand->getGraphic();
+        $numDices = count($res);
 
-        for ($i = 0; $i < count($res); $i++) {
+        for ($i = 0; $i < $numDices; $i++) {
             $this->assertTrue(1 <= (int) $res[$i]);
             $this->assertTrue((int) $res[$i] <= 6);
         }

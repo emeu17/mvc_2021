@@ -47,7 +47,7 @@ class ControllerYatzyTest extends TestCase
 
         $this->assertArrayHasKey("yatzyHand", $_SESSION);
 
-        $res = $controller->startGame();
+        $controller->startGame();
         $this->assertArrayNotHasKey("yatzyHand", $_SESSION);
     }
 
