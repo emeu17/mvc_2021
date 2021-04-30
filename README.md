@@ -16,3 +16,10 @@ Kmom02
 -------------
 Refactoring of code to include controllers.
 New class Yatzy to play yatzy game on application.
+
+
+Kmom03
+-------------
+Unit-testing of controller classes and Dice classes
+can be found under folder *test*. Can be performed running
+*make phpunit*. Result of test can be found in *build*-map -> coverage.
