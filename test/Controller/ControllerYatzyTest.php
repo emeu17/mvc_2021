@@ -98,20 +98,155 @@ class ControllerYatzyTest extends TestCase
 
         $exp = "\Psr\Http\Message\ResponseInterface";
         $res = $controller->playGame();
-        echo(print_r($res));
+        // echo(print_r($res));
         $this->assertInstanceOf($exp, $res);
     }
 
-    // /**
-    //  * Check that the controller returns a response.
-    //  */
-    // public function testPlayGameReturnsResponse()
-    // {
-    //     $controller = new Yatzy();
-    //
-    //     $exp = "\Psr\Http\Message\ResponseInterface";
-    //     $res = $controller->playGame();
-    //     echo(print_r($res));
-    //     $this->assertInstanceOf($exp, $res);
-    // }
+    /**
+     * Check that the controller returns a response.
+     */
+    public function testProcessThrowReturnsResponse()
+    {
+        $controller = new Yatzy();
+
+        $exp = "\Psr\Http\Message\ResponseInterface";
+        $res = $controller->processThrow();
+        $this->assertInstanceOf($exp, $res);
+    }
+
+    /**
+     * Check that the controller returns a response
+     * and that setting yatzyRound to 3 makes the
+     * method go to a new round
+     */
+    public function testProcessThrowThreeRounds()
+    {
+        $controller = new Yatzy();
+        $_SESSION["yatzyRound"] = 3;
+
+        $exp = "\Psr\Http\Message\ResponseInterface";
+        $res = $controller->processThrow();
+        $this->assertInstanceOf($exp, $res);
+
+        $res = $_SESSION["yatzyRound"];
+        $exp = 1;
+        $this->assertEquals($exp, $res);
+
+        $this->assertTrue($_SESSION["yatzyNewRound"]);
+    }
+
+    /**
+     * Check that the controller returns a response
+     * and that setting yatzyRound to 3 and set to 6
+     * (changes to 7 in method)
+     * makes the method go to result page
+     */
+    public function testProcessThrowThreeRoundsSevenSet()
+    {
+        $controller = new Yatzy();
+        $_SESSION["yatzyRound"] = 3;
+        $_SESSION["yatzySet"] = 6;
+
+        $exp = "\Psr\Http\Message\ResponseInterface";
+        $res = $controller->processThrow();
+        $this->assertInstanceOf($exp, $res);
+
+        $res = $_SESSION["yatzyRound"];
+        $exp = 1;
+        $this->assertEquals($exp, $res);
+        $res = $_SESSION["yatzySet"];
+        $exp = 7;
+        $this->assertEquals($exp, $res);
+
+        $this->assertTrue($_SESSION["yatzyNewRound"]);
+    }
+
+    /**
+     * Check that method printResults prints the correct
+     * result string
+     */
+    public function testPrintResult()
+    {
+        $controller = new Yatzy();
+        $_SESSION["yatzyResult"][1] = [1, 1, 2, 3, 4];
+
+        $res = $controller->printResult(2);
+        // echo("Res: " . $res);
+
+        $this->assertEquals($res, "1: 1, 1, 2, 3, 4<br />\n");
+    }
+
+    /**
+     * Check that method printResults prints the correct
+     * result string
+     */
+    public function testPrintResultStars()
+    {
+        $controller = new Yatzy();
+        $_SESSION["yatzyResult"][1] = [1, 1, 1, 3, 4];
+
+        $res = $controller->printResultStars(2);
+        // echo("Res: " . $res);
+
+        $this->assertEquals($res, "1: ***<br />\n");
+    }
+
+    /**
+     * Check that method counts together correct sum
+     * from result of the 6 sets in the yatzy game
+     */
+    public function testGetSum()
+    {
+        $controller = new Yatzy();
+        $_SESSION["yatzyResult"][1] = [1, 1, 1, 3, 4];
+        $_SESSION["yatzyResult"][2] = [2, 2, 2, 3, 4];
+        $_SESSION["yatzyResult"][3] = [1, 3, 3, 3, 4];
+        $_SESSION["yatzyResult"][4] = [1, 1, 4, 4, 4];
+        $_SESSION["yatzyResult"][5] = [1, 5, 5, 5, 4];
+        $_SESSION["yatzyResult"][6] = [1, 6, 6, 6, 4];
+        $sum = 1*3 + 2*3 + 3*3 + 4*3 + 5*3 + 6*3;
+
+        $res = $controller->getSum($_SESSION["yatzyResult"]);
+
+        $this->assertEquals($res, $sum);
+    }
+
+    /**
+     * Check that method works with getting a bonus
+     */
+    public function testGetBonus()
+    {
+        $controller = new Yatzy();
+        $sum = 65;
+
+        $res = $controller->getBonus($sum);
+        $bonus = 50;
+        $this->assertEquals($res, $bonus);
+    }
+
+    /**
+     * Check that method works with not getting a bonus
+     */
+    public function testNotGetBonus()
+    {
+        $controller = new Yatzy();
+        $sum = 60;
+
+        $res = $controller->getBonus($sum);
+        $bonus = 0;
+        $this->assertEquals($res, $bonus);
+    }
+
+    /**
+     * Check that the controller returns a response.
+     */
+    public function testResultReturnsResponse()
+    {
+        $controller = new Yatzy();
+
+        $exp = "\Psr\Http\Message\ResponseInterface";
+        $res = $controller->result();
+        $this->assertInstanceOf($exp, $res);
+    }
+
 }

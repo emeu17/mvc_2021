@@ -1,35 +1,11 @@
 PHPUnit 9.5.4 by Sebastian Bergmann and contributors.
 
-............................Nyholm\Psr7\Response Object
-(
-    [reasonPhrase:Nyholm\Psr7\Response:private] => OK
-    [statusCode:Nyholm\Psr7\Response:private] => 200
-    [headers:Nyholm\Psr7\Response:private] => Array
-        (
-        )
+.....................................................             53 / 53 (100%)
 
-    [headerNames:Nyholm\Psr7\Response:private] => Array
-        (
-        )
+Time: 00:08.483, Memory: 24.00 MB
 
-    [protocol:Nyholm\Psr7\Response:private] => 1.1
-    [stream:Nyholm\Psr7\Response:private] => Nyholm\Psr7\Stream Object
-        (
-            [stream:Nyholm\Psr7\Stream:private] => Resource id #655
-            [seekable:Nyholm\Psr7\Stream:private] => 1
-            [readable:Nyholm\Psr7\Stream:private] => 1
-            [writable:Nyholm\Psr7\Stream:private] => 1
-            [uri:Nyholm\Psr7\Stream:private] => 
-            [size:Nyholm\Psr7\Stream:private] => 
-        )
+OK (53 tests, 84 assertions)
 
-)
-1................                      44 / 44 (100%)
+Generating code coverage report in Clover XML format ... done [00:00.135]
 
-Time: 00:08.622, Memory: 24.00 MB
-
-OK (44 tests, 70 assertions)
-
-Generating code coverage report in Clover XML format ... done [00:00.145]
-
-Generating code coverage report in HTML format ... done [00:00.713]
+Generating code coverage report in HTML format ... done [00:00.668]
