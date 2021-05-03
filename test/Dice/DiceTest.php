@@ -63,4 +63,20 @@ class DiceTest extends TestCase
         $this->assertEquals($exp, $res);
 
     }
+
+    /**
+     * Construct object and verify that making a roll
+     * results in the correct return int
+     */
+    public function testRollDiceMultipleFaces()
+    {
+        $dice = new Dice(6);
+        $this->assertInstanceOf("\Emeu17\Dice\Dice", $dice);
+
+        $res = $dice->roll();
+        $expLow = 1;
+        $expHigh = 6;
+        $this->assertTrue($expLow <= $res);
+        $this->assertTrue($expHigh >= $res);
+    }
 }
